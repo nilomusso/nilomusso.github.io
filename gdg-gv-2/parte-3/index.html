@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="lib/angular/angular.js"></script>
+    <script src="app/js/app.js"></script>
+    <script src="app/js/controllers/main.js"></script>
+</head>
+<body ng-app="app"
+      ng-controller="main">
+
+<h3>Nova tarefa</h3>
+
+<form name="formulario"
+      ng-submit="adicionarTarefa()">
+    <input type="text" required
+           ng-model="formData.novaTarefa">
+    <input type="submit"
+           value="Adicionar"
+           ng-disabled="formulario.$invalid">
+</form>
+
+<h3>A fazer:</h3>
+
+<ul>
+    <li ng-repeat="item in lista_aFazer">
+        <button ng-click="excluirTarefa(lista_aFazer, $index)">x</button>
+        <button ng-bind="item.texto"
+                ng-click="trocarDeLista(lista_aFazer, lista_concluidas, $index)">
+        </button>
+    </li>
+</ul>
+
+<h3>Concluídas:</h3>
+
+<ul>
+    <li ng-repeat="item in lista_concluidas">
+        <button ng-click="excluirTarefa(lista_concluidas, $index)">x</button>
+        <button ng-bind="item.texto"
+                ng-click="trocarDeLista(lista_concluidas, lista_aFazer, $index)">
+        </button>
+    </li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Primeiros passos com AngularJS - GDG Grande Vitória #002</title>
+    <link href="lib/bundle/bundle.css" rel="stylesheet">
+    <script src="lib/bundle/bundle.js"></script>
+</head>
+<body class="container">
+
+<header class="jumbotron page-header">
+    <h1>
+        Primeiros passos com AngularJS
+        <br>
+        <small>Nilo Kulnig Musso</small>
+    </h1>
+</header>
+
+<section>
+    <h2 class="page-header" id="intro">Introdução</h2>
+    <p>No dia 20 de Setembro fui responsável por coordenar o dojo de AnglarJS
+      que aconteceu durante o segundo evento Google Developers Groups da Grande Vitória.
+      Infelizmente o tempo que tivemos não foi o suficiente para irmos além do que esperávamos.</p>
+      <p>Decidi escrever este pequeno guia para estimular os participantes a manterem o interesse pelo
+        AngularJS e para todas pessoas que estiverem interessadas em começar a aprender este
+        Framework Super-heróico
+        <a href="https://plus.google.com/+AngularJS/posts/aZNVhj355G2" target="_blank">MVW</a>
+        em JavaScript.</p>
+<section>
+
+<section>
+
+    <h2 class="page-header" id="parte-1">Parte 1</h2>
+
+    <p>O primeiro passo é visitar a página do AngularJS (<a href="https://angularjs.org/"
+                                                            target="_blank">https://angularjs.org/</a>)
+        e baixar a versão estável mais recente do Framework (atualmente é a versão 1.2.25).</p>
+
+    <p>Escolha a versão compactada em Zip, pois esta vem com uma documentação para acessar offline e com muitos
+        exemplos.</p>
+
+    <p>Agora precisamos organizar a estrutura de arquivos inicial do projeto.</p>
+
+    <h4>estrutura de arquivos</h4>
+<pre class="prettyprint">
+app
+-- js
+   -- controllers
+      -- main.js
+   -- app.js
+lib
+-- angular
+   -- angular.js
+index.html
+
+</pre>
+
+    <p>No <b>index.html</b> colocaremos as referências aos <i>scripts</i>, e ficará assim:</p>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+&lt;meta charset="UTF-8">
+&lt;title>&lt;/title>
+    &lt;script src="lib/angular/angular.js">&lt;/script>
+    &lt;script src="app/js/app.js">&lt;/script>
+    &lt;script src="app/js/controllers/main.js">&lt;/script>
+&lt;/head>
+&lt;body>
+&lt;/body>
+&lt;html>
+</pre>
+
+    <p>Vamos editar o <b>app.js</b> e criar um módulo chamado <b>'app'</b> através do método <i>module()</i> do
+        <i>angular</i> passando como primeiro parâmetro o nome que atribuiremos ao módulo e o segundo parâmetro é uma
+        lista
+        de dependências, que por enquanto deixaremos vazia.</p>
+
+    <h4>app/js/app.js</h4>
+<pre class="prettyprint">
+angular.module('app', []);
+</pre>
+
+    <p>No <b>main.js</b> criaremos nosso primeiro controlador. Quando passamos apenas um parâmetro no método
+        <i>module()</i>
+        ele retorna o módulo com o nome passado. Por exemplo:
+    </p>
+<pre class="prettyprint">
+angular.module('app'); //retorna o módulo que criamos
+</pre>
+
+    <p>O módulo possui um método <i>controller()</i> e com ele criaremos o controlador <b>'main'</b>, semelhante a como
+        criamos o módulo.</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+angular.module('app')
+    .controller('main', []);
+</pre>
+
+    <p>Na lista de dependências do controlador vamos por uma referência ao <b>'$scope'</b> e uma função que recebe como
+        parâmetro o <i>$scope</i>.</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+angular.module('app')
+    .controller('main', [
+        '$scope',
+        function ($scope) {
+        }
+    ]
+);
+</pre>
+
+    <p>Esta função no final da lista de dependências é a inicializadora do controlador. Nela definiremos nossos modelos
+        pelas propriedades do <i>$scope</i>. Para começar, faremos uma propriedade <i>oi</i>.</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+angular.module('app')
+    .controller('main', [
+        '$scope',
+        function ($scope) {
+            $scope.oi = 'Oi!';
+        }
+    ]
+);
+</pre>
+
+    <p>Ótimo! e agora? O que falta para aparecer alguma coisa na tela? Falta prepararmos as <i>views</i> e associar o
+        módulo e o controlador à elas. Assim poderemos usar a diretriz <i>ng-bind</i>, por exemplo, para amarrar a
+        propriedade
+        <i>oi</i> do modelo ao texto exibido no parágrafo <i>&lt;p>&lt;/p></i>.</p>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;body ng-app="app"
+      ng-controller="main">
+
+&lt;p ng-bind="oi">&lt;/p>
+
+&lt;/body>
+
+&lt;!-- ... -->
+</pre>
+
+    <p><a class="btn btn-lg btn-info" href="parte-1" target="_blank">
+        Veja esta etapa concluída</a></p>
+
+</section>
+
+<section>
+
+    <h2 class="page-header" id="parte-2">Parte 2</h2>
+
+    <p>Temos um simpático "Oi!" na tela. Mas podemos fazer mais! Que tal uma lista? :p</p>
+
+    <p>Primeiro vamos declarar uma lista no escopo:</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+// ...
+
+$scope.lista = [
+    'Primeiro',
+    'Segundo',
+    'Terceiro',
+    'Quarto'
+];
+
+// ...
+</pre>
+
+    <p>Agora precisamos alterar o <i>template</i>. Criaremos uma <i>&lt;ul>&lt;/ul></i> e usaremos a diretriz
+        <i>ng-repeat</i>
+        em sua <i>tag</i> filha <i>&lt;li>&lt;/li></i>.</p>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;ul>
+    &lt;li ng-repeat="item in lista">&lt;/li>
+&lt;/ul>
+
+&lt;!-- ... -->
+</pre>
+
+    <p>Com isso, surgiu apenas uma lista de pontinhos na tela porque faltou a diretriz <i>ng-binding</i> para amarrar um
+        modelo à cada
+        <i>&lt;li>&lt;/li></i> gerado. Assim:</p>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;li ng-repeat="item in lista"
+    ng-bind="item">&lt;/li>
+
+&lt;!-- ... -->
+</pre>
+
+    <p>Quem é esse tal de <i>item</i>? A <i>ng-repeat</i> funciona como um <i>foreach</i> e <i>item</i> é uma variável
+        que
+        receberá temporariamente o valor de cada item da lista durante as iterações. Você pode nomear essa variável como
+        quiser. Poderia ser:</p>
+<pre class="prettyprint">
+&lt;li ng-repeat="abobrinha in lista"
+    ng-bind="abobrinha">&lt;/li>
+</pre>
+
+    <p>E se algum item for repetido, funciona?</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+// ...
+
+$scope.lista = [
+    'Primeiro',
+    'Segundo',
+    'Terceiro',
+    'Quarto',
+    'Segundo'
+];
+
+// ...
+</pre>
+
+    <p>Ops! Não funciona. Por que? A explicação mais simplória é que a <i>ng-repeat</i> não foi projetada para listas de
+        tipos primitivos. E como resolver isso? Use sempre listas de objetos:</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+// ...
+
+$scope.lista = [
+    {texto: 'Primeiro'},
+    {texto: 'Segundo'},
+    {texto: 'Terceiro'},
+    {texto: 'Quarto'},
+    {texto: 'Segundo'}
+];
+
+// ...
+</pre>
+
+    <p>E não se esqueça de mudar a referência na <i>ng-bind</i>:</p>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;li ng-repeat="item in lista"
+    ng-bind="item.texto">&lt;/li>
+
+&lt;!-- ... -->
+</pre>
+
+    <p><a class="btn btn-lg btn-info" href="parte-2" target="_blank">
+        Veja esta etapa concluída</a></p>
+
+</section>
+
+<section>
+
+    <h2 class="page-header" id="parte-3">Parte 3</h2>
+
+    <p>É hora de construirmos algo mais interessante. Ispirados pela sugestão
+      do nosso colega de GDGGV#2, Stewan Pacheco, faremos um quadro de atividades
+      com duas listas: 'atividades a fazer' e 'concluídas'.</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+angular.module('app')
+    .controller('main', [
+        '$scope',
+        function ($scope) {
+            $scope.lista_aFazer = [
+                {texto: 'Começar o curso de AngularJS na Code School'},
+                {texto: 'Fazer café!!!'},
+                {texto: 'Escrever diretriz para as listas'}
+
+            ];
+            $scope.lista_concluidas = [];
+        }
+    ]
+);
+</pre>
+
+    <p>Por enquanto deixaremos os <i>templates</i> no <b>index.html</b>:</p>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;body ng-app="app"
+      ng-controller="main">
+
+&lt;h3>A fazer:&lt;/h3>
+
+&lt;ul>
+    &lt;li ng-repeat="item in lista_aFazer">
+        &lt;button ng-bind="item.texto">
+        &lt;/button>
+    &lt;/li>
+&lt;/ul>
+
+&lt;h3>Concluídas:&lt;/h3>
+
+&lt;ul>
+    &lt;li ng-repeat="item in lista_concluidas">
+        &lt;button ng-bind="item.texto">
+        &lt;/button>
+    &lt;/li>
+&lt;/ul>
+
+&lt;/body>
+
+&lt;!-- ... -->
+</pre>
+
+    <p>Para passar os itens de uma lista para a outra vamos escrever uma função e amarrá-la ao evento de clique dos
+        itens
+        das listas nos <i>templates</i>.</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+// ...
+
+$scope.trocarDeLista = function (origem, destino, indice) {
+    destino.push(origem[indice]); //adiciona o item na lista destino
+    origem.splice(indice, 1); //remove o item da lista de origem
+};
+
+// ...
+</pre>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;button ng-bind="item.texto"
+        ng-click="trocarDeLista(lista_aFazer, lista_concluidas, $index)">
+&lt;/button>
+
+&lt;!-- ... -->
+
+&lt;button ng-bind="item.texto"
+        ng-click="trocarDeLista(lista_concluidas, lista_aFazer, $index)">
+&lt;/button>
+
+&lt;!-- ... -->
+</pre>
+
+    <p>Bom! O quadro está funcionando! Mas precisamos por mais tarefas nele. Precisaremos de uma nova função e de um
+        pequeno formulário.</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+// ...
+
+$scope.formData = { //modelo para os dados do form
+    novaTarefa: '' //modelo para o input
+};
+$scope.adicionarTarefa = function () {
+    //adiciona a nova tarefa na lista
+    $scope.lista_aFazer.push({texto: $scope.formData.novaTarefa});
+    $scope.formData.novaTarefa = ''; //limpa o campo
+};
+
+// ...
+</pre>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;h3>Nova tarefa&lt;/h3>
+
+&lt;form name="formulario"
+      ng-submit="adicionarTarefa()">
+    &lt;input type="text"
+           ng-model="formData.novaTarefa">
+    &lt;input type="submit"
+           value="Adicionar">
+&lt;/form>
+
+&lt;h3>A fazer:&lt;/h3>
+
+&lt;!-- ... -->
+
+&lt;h3>Concluídas:&lt;/h3>
+
+&lt;!-- ... -->
+</pre>
+
+    <p>E o que fazer para evitar a entrada de tarefas em branco? A fórmula pode ser simples: adicionar um atributo <i>required</i>
+        no <i>input text</i> e uma diretriz <i>ng-disabled</i> no <i>input submit</i>.</p>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;input type="text" required
+       ng-model="formData.novaTarefa">
+&lt;input type="submit"
+       value="Adicionar"
+       ng-disabled="formulario.$invalid">
+
+&lt;!-- ... -->
+</pre>
+
+    <p>O Angular é esperto e criou no escopo uma propriedade com o nome que demos ao formulário. Na diretriz
+        <i>ng-disabled</i> acessamos a propriedade <i>$invalid</i> que é booliana para desativar o botão enquanto o
+        formulário não estiver válido.</p>
+
+    <p>Para finalizarmos as funcionalidades do quadro de tarefas vamos tornar possível excluir tarefas também.</p>
+
+    <h4>app/js/controllers/main.js</h4>
+<pre class="prettyprint">
+// ...
+
+$scope.excluirTarefa = function (lista, indice) {
+    lista.splice(indice, 1); //remove o item da lista
+};
+
+// ...
+</pre>
+
+    <h4>index.html</h4>
+<pre class="prettyprint">
+&lt;!-- ... -->
+
+&lt;button ng-click="excluirTarefa(lista_aFazer, $index)">x&lt;/button>
+&lt;button ng-bind="item.texto"
+        ng-click="trocarDeLista(lista_aFazer, lista_concluidas, $index)">
+&lt;/button>
+
+&lt;!-- ... -->
+
+&lt;button ng-click="excluirTarefa(lista_concluidas, $index)">x&lt;/button>
+&lt;button ng-bind="item.texto"
+        ng-click="trocarDeLista(lista_concluidas, lista_aFazer, $index)">
+&lt;/button>
+
+&lt;!-- ... -->
+</pre>
+
+    <p><a class="btn btn-lg btn-info" href="parte-3" target="_blank">
+        Veja esta etapa concluída</a></p>
+
+</section>
+
+<section>
+    <h2 class="page-header" id="parte-4">Parte 4</h2>
+    <p>Em breve a parte 4 estará pronta e escreveremos as primeiras diretrizes
+    próprias para nossa pequena aplicação :)</p>
+<section>
+
+<br>
+<br>
+
+<footer>
+</footer>
+
+<br>
+<br>
+
+</body>
+</html>
